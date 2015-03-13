@@ -26,6 +26,7 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.event_fragment, container, false);
         calendarView = (CalendarView) view.findViewById(R.id.calendarView);
+        calendarView.setShowWeekNumber(false);
         listView = (ListView) view.findViewById(android.R.id.list);
         return view;
     }

@@ -6,21 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
-import co.johnnyli.gamer.R;
-
 
 public class MainActivity extends ActionBarActivity {
 
     private static final int SPLASH = 0;
-    private static final int SELECTION = 1;
-    private static final int SETTINGS = 2;
+    private static final int SETTINGS = 1;
     private static final int FRAGMENT_COUNT = SETTINGS +1;
 
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
@@ -40,7 +36,6 @@ public class MainActivity extends ActionBarActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
-        fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
         fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -89,7 +84,8 @@ public class MainActivity extends ActionBarActivity {
                 manager.popBackStack();
             }
             if (state.isOpened()) {
-                showFragment(SELECTION, false);
+                startActivity(new Intent(MainActivity.this, Feed.class));
+                showFragment(SETTINGS,false);
             } else if (state.isClosed()) {
                 showFragment(SPLASH, false);
             }
@@ -102,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
         Session session = Session.getActiveSession();
 
         if (session != null && session.isOpened()) {
-            showFragment(SELECTION, false);
+            showFragment(SETTINGS, false);
         } else {
             showFragment(SPLASH, false);
         }
@@ -136,34 +132,4 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.equals(settings)) {
-            showFragment(SETTINGS, true);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // only add the menu when the selection fragment is showing
-        if (fragments[SELECTION].isVisible()) {
-            if (menu.size() == 0) {
-                settings = menu.add(R.string.settings);
-            }
-            return true;
-        } else {
-            menu.clear();
-            settings = null;
-        }
-        return false;
-    }
 }

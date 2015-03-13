@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 /**
  * Created by johnnyli on 3/10/15.
  */
-public class SplashFragment extends Fragment {
+public class SplashFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.splash,
                 container, false);
+
         return view;
     }
 }

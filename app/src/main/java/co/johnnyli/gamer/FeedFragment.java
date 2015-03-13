@@ -1,5 +1,6 @@
 package co.johnnyli.gamer;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -7,55 +8,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by johnnyli on 3/9/15.
  */
-public class FeedFragment extends ListFragment implements AdapterView.OnItemClickListener{
+public class FeedFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     private ListView listView;
-    private ArrayAdapter arrayAdapter;
-    private List<String> testArray = new ArrayList<String>();
+    FeedJSONAdapter mJSONAdapter;
+    private static final String URL = "http://10.12.6.28:8000/Feed.json";
+//    private static final String URL = "http://10.12.6.28:8000/api/post/?ordering=-id";
+//    private static final String URL = "http://10.12.5.41:8000/api/post/";
+
+
+    ProgressDialog mDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
         listView = (ListView) view.findViewById(android.R.id.list);
+        mDialog = new ProgressDialog(FeedFragment.this.getActivity());
+        mDialog.setMessage("Loading");
+        mDialog.setCancelable(true);
+        getFeed();
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        testArray.add("Board games are super awesome don't you agree?");
-        testArray.add("It's fun playing board games all day long!");
-        testArray.add("We should meet up to play!!!");
-        testArray.add("One two three four five six seven");
-        testArray.add("Crack is wack");
-        testArray.add("Smokers are jokers");
-        testArray.add("Dogs are better than cats");
-        testArray.add("Board games are super awesome don't you agree?");
-        testArray.add("It's fun playing board games all day long!");
-        testArray.add("We should meet up to play!!!");
-        testArray.add("One two three four five six seven");
-        testArray.add("Crack is wack");
-        testArray.add("Smokers are jokers");
-        testArray.add("Dogs are better than cats");testArray.add("Board games are super awesome don't you agree?");
-        testArray.add("It's fun playing board games all day long!");
-        testArray.add("We should meet up to play!!!");
-        testArray.add("One two three four five six seven");
-        testArray.add("Crack is wack");
-        testArray.add("Smokers are jokers");
-        testArray.add("Dogs are better than cats");
-        arrayAdapter = new ArrayAdapter<String>(
-                getActivity(), android.R.layout.simple_list_item_1, testArray
-        );
-        listView.setAdapter(arrayAdapter);
+
+        mJSONAdapter = new FeedJSONAdapter(getActivity(), getActivity().getLayoutInflater());
+        listView.setAdapter(mJSONAdapter);
         listView.setOnItemClickListener(this);
 
 
@@ -63,10 +56,41 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String post = testArray.get(position);
+        JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
+        String pk = jsonObject.optString("pk", "");
+        String group = jsonObject.optString("group");
+        String owner_name = jsonObject.optString("owner_name");
+        String text = jsonObject.optString("text");
+        String image_url = jsonObject.optString("image_url");
         Intent detailIntent = new Intent(FeedFragment.this.getActivity(), DetailView.class);
-        detailIntent.putExtra("post", post);
+        detailIntent.putExtra("pk", pk);
+        detailIntent.putExtra("group", group);
+        detailIntent.putExtra("owner_name", owner_name);
+        detailIntent.putExtra("text", text);
+        detailIntent.putExtra("image_url", image_url);
         startActivity(detailIntent);
+    }
+
+    private void getFeed() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        mDialog.show();
+        client.get(URL, new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(JSONArray jsonArray) {
+                mDialog.dismiss();
+                mJSONAdapter.updateData(jsonArray);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                mDialog.dismiss();
+                Toast.makeText(FeedFragment.this.getActivity(), "Error: " + statusCode + " " +
+                        throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

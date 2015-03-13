@@ -3,23 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/post"
-            android:background="@drawable/border"
-            android:padding="10dp"/>
-
-        <ListView
-            android:id="@+id/comment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp">
-        </ListView>
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/user_img"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerInside"/>
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:layout_toRightOf="@+id/user_img"
+                android:layout_alignTop="@+id/user_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_content"
+                android:layout_below="@+id/author"
+                android:layout_alignLeft="@+id/author"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"/>
+            </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,5 +57,12 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/post"/>
         </LinearLayout>
+        <ListView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="20dp">
+        </ListView>
+
     </LinearLayout>
 </ScrollView>
