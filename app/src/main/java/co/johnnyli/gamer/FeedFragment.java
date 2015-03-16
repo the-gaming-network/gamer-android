@@ -25,10 +25,6 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
     private ListView listView;
     FeedJSONAdapter mJSONAdapter;
     private static final String URL = "http://10.12.6.28:8000/Feed.json";
-//    private static final String URL = "http://10.12.6.28:8000/api/post/?ordering=-id";
-//    private static final String URL = "http://10.12.5.41:8000/api/post/";
-
-
     ProgressDialog mDialog;
 
 
@@ -57,7 +53,7 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
-        String pk = jsonObject.optString("pk", "");
+        String pk = jsonObject.optString("pk");
         String group = jsonObject.optString("group");
         String owner_name = jsonObject.optString("owner_name");
         String text = jsonObject.optString("text");

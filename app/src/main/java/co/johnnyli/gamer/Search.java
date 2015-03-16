@@ -91,7 +91,9 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
+        String name = jsonObject.optString("name");
         Intent groupIntent = new Intent(this, Group.class);
+        groupIntent.putExtra("name", name);
         startActivity(groupIntent);
     }
 }

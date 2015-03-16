@@ -12,10 +12,14 @@ import com.astuetz.PagerSlidingTabStrip;
 
 public class Group extends ActionBarActivity {
 
+    public static String nameOfGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+        nameOfGroup = this.getIntent().getExtras().getString("name");
+        setTitle(nameOfGroup);
         //Code for Tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new GroupFragmentPageAdapter(getSupportFragmentManager()));

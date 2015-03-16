@@ -1,5 +1,6 @@
 package co.johnnyli.gamer;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -28,7 +29,11 @@ public class GroupFragmentPageAdapter extends FragmentPagerAdapter {
             case 1:
                 return new EventFragment();
             case 2:
-                return new AboutFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", Group.nameOfGroup);
+                AboutFragment about = new AboutFragment();
+                about.setArguments(bundle);
+                return about;
             default:
                 return null;
         }

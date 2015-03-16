@@ -26,6 +26,7 @@ public class ProfileFragment extends Fragment {
     private TextView description;
     private UiLifecycleHelper uiHelper;
     private static final int REAUTH_ACTIVITY_CODE = 100;
+    public static String userFacebookName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class ProfileFragment extends Fragment {
                         if (session == Session.getActiveSession()) {
                             if (user != null) {
                                 profilePictureView.setProfileId(user.getId());
+                                userFacebookName = user.getName();
                                 name.setText(user.getName());
                             }
                         }

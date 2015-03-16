@@ -49,7 +49,9 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
+        String name = jsonObject.optString("name");
         Intent groupIntent = new Intent(GroupFragment.this.getActivity(), Group.class);
+        groupIntent.putExtra("name", name);
         startActivity(groupIntent);
     }
 
