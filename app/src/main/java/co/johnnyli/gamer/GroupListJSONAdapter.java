@@ -10,9 +10,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/13/15.
- */
 public class GroupListJSONAdapter extends BaseAdapter {
 
     Context mContext;

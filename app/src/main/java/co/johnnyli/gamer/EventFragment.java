@@ -12,15 +12,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by johnnyli on 3/6/15.
- */
 public class EventFragment extends Fragment {
 
     private CalendarView calendarView;
     private ListView listView;
     private ArrayAdapter arrayAdapter;
-    private List<String> testArray = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +51,7 @@ public class EventFragment extends Fragment {
         testArray.add("Crack is wack");
         testArray.add("Smokers are jokers");
         testArray.add("Dogs are better than cats");
-        arrayAdapter = new ArrayAdapter<String>(
+        arrayAdapter = new ArrayAdapter<>(
                 getActivity(), android.R.layout.simple_list_item_1, testArray
         );
         listView.setAdapter(arrayAdapter);

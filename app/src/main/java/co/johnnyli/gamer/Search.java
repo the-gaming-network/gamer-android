@@ -22,9 +22,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-/**
- * Created by johnnyli on 3/9/15.
- */
 public class Search extends ActionBarActivity implements View.OnClickListener,
         AdapterView.OnItemClickListener {
 

@@ -13,9 +13,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/13/15.
- */
 public class DiscussionJSONAdapter extends BaseAdapter {
 
     Context mContext;

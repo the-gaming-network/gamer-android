@@ -13,9 +13,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/11/15.
- */
 public class FeedJSONAdapter extends BaseAdapter {
 
     Context mContext;
@@ -59,7 +56,7 @@ public class FeedJSONAdapter extends BaseAdapter {
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
         Picasso.with(mContext).load(jsonObject.optString("image_url")).into(holder.avatarView);
-        String groupName = "";
+        String groupName;
         if (jsonObject.has("group")) {
             groupName = jsonObject.optString("owner_name") + " in " +
                     jsonObject.optString("group");
@@ -68,8 +65,8 @@ public class FeedJSONAdapter extends BaseAdapter {
         }
         String postContent = jsonObject.optString("text");
         if (jsonObject.has("likes")) {
-            String commentLike = "Comments: " + jsonObject.optString("comments") + "            Likes: "
-                    + jsonObject.optString("likes");
+            String commentLike = "Comments: " + jsonObject.optString("comments")
+                    + "            Likes: " + jsonObject.optString("likes");
             holder.commentTextView.setText(commentLike);
 
         } else {

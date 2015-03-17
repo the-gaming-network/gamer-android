@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by johnnyli on 3/6/15.
- */
 public class AboutFragment extends Fragment {
 
     private TextView name;

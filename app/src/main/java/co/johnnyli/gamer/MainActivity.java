@@ -1,16 +1,21 @@
 package co.johnnyli.gamer;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
+
+import java.util.Arrays;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -24,22 +29,25 @@ public class MainActivity extends ActionBarActivity {
     private boolean isResumed = false;
     private UiLifecycleHelper uiHelper;
 
-    private MenuItem settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00006B")));
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LoginButton authButton = (LoginButton) findViewById(R.id.login_button);
+        authButton.setReadPermissions(Arrays.asList("email"));
 
         FragmentManager fm = getSupportFragmentManager();
         fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
         fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 
         FragmentTransaction transaction = fm.beginTransaction();
-        for(int i = 0; i < fragments.length; i++) {
+        for (int i = 0; i < fragments.length; i++) {
             transaction.hide(fragments[i]);
         }
         transaction.commit();
@@ -96,7 +104,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onResumeFragments() {
         super.onResumeFragments();
         Session session = Session.getActiveSession();
-
         if (session != null && session.isOpened()) {
             showFragment(SETTINGS, false);
         } else {

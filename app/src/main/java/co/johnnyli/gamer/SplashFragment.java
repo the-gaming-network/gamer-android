@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by johnnyli on 3/10/15.
- */
 public class SplashFragment extends Fragment{
 
     @Override

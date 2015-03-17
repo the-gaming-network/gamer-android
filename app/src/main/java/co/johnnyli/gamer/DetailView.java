@@ -2,7 +2,10 @@ package co.johnnyli.gamer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,13 +30,10 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * Created by johnnyli on 3/9/15.
- */
+
 public class DetailView extends ActionBarActivity implements View.OnClickListener{
 
     Context mContext;
-//    private static final String URL = "http://10.12.6.28:8000/api/post/";
     private static final String URL = "http://10.12.6.28:8000/post.json";
     private ListView listView;
     FeedJSONAdapter mJSONAdapter;
@@ -49,8 +49,12 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_view);
+        //ActionBar color
+        String color = "#00006B";
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         pk = this.getIntent().getExtras().getString("pk");
-        String owner_name = "";
+        String owner_name;
         if (this.getIntent().getExtras().getString("group") != null) {
             owner_name = this.getIntent().getExtras().getString("owner_name") + " in "
                     + this.getIntent().getExtras().getString("group");
@@ -77,15 +81,12 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_feed, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
 
         switch (item.getItemId()) {
             case R.id.action_search:
@@ -131,14 +132,15 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         String strDate = sdf.format(cal.getTime());
         params.put("text", add_comment.getText().toString());
         params.put("timestamp", strDate);
-        params.put("owner_name", ProfileFragment.userFacebookName.toString());
+        params.put("owner_name", ProfileFragment.userFacebookName);
         params.put("post", pk);
         Log.d("this is a test", params.toString());
+        Log.d("testing", "value =" +  ProfileFragment.userFacebookEmail);
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(URL, params, new JsonHttpResponseHandler() {
            @Override
            public void onSuccess(JSONObject jsonObject) {
-               Log.d("testing", "it worked!!!");
+               Log.d("testing", ProfileFragment.userFacebookEmail);
            }
         });
         add_comment.setText("");

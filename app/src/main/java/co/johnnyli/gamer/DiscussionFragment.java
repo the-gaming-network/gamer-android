@@ -27,9 +27,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * Created by johnnyli on 3/6/15.
- */
 public class DiscussionFragment extends ListFragment implements AdapterView.OnItemClickListener,
         View.OnClickListener {
 

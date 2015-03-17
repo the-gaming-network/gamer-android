@@ -3,6 +3,7 @@ package co.johnnyli.gamer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,6 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
 
-/**
- * Created by johnnyli on 3/9/15.
- */
 public class ProfileFragment extends Fragment {
 
     private ProfilePictureView profilePictureView;
@@ -27,6 +25,7 @@ public class ProfileFragment extends Fragment {
     private UiLifecycleHelper uiHelper;
     private static final int REAUTH_ACTIVITY_CODE = 100;
     public static String userFacebookName;
+    public static String userFacebookEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +51,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        description.setText("I'm Mr. Awesome and I'm super awesome. If you disagree with me I'll" +
-                " be so awesome your head will explode.");
     }
 
     private void makeMeRequest(final Session session) {
@@ -64,8 +61,18 @@ public class ProfileFragment extends Fragment {
                         if (session == Session.getActiveSession()) {
                             if (user != null) {
                                 profilePictureView.setProfileId(user.getId());
+                                Log.d("user!!!!!!!!!!", user.toString());
                                 userFacebookName = user.getName();
-                                name.setText(user.getName());
+                                userFacebookEmail = user.asMap().get("email").toString();
+                                name.setText(userFacebookName);
+                                if (user.getBirthday() != null) {
+                                    description.setText("Email: " + userFacebookEmail + "\n"
+                                        + "Gender: " + user.asMap().get("gender").toString()
+                                        +"\n" + "Birthday:" + user.getBirthday());
+                                } else {
+                                    description.setText("Email: " + userFacebookEmail + "\n"
+                                            + "Gender: " + user.asMap().get("gender").toString());
+                                }
                             }
                         }
                         if (response.getError() != null) {

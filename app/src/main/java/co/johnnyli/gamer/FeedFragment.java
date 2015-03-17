@@ -17,9 +17,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/9/15.
- */
 public class FeedFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     private ListView listView;
@@ -42,7 +39,6 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mJSONAdapter = new FeedJSONAdapter(getActivity(), getActivity().getLayoutInflater());
         listView.setAdapter(mJSONAdapter);
         listView.setOnItemClickListener(this);

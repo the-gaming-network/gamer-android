@@ -16,9 +16,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/9/15.
- */
 public class GroupFragment extends ListFragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
@@ -43,7 +40,6 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
         mJSONAdapter = new GroupListJSONAdapter(getActivity(), getActivity().getLayoutInflater());
         listView.setAdapter(mJSONAdapter);
         listView.setOnItemClickListener(this);
-
     }
 
     @Override
@@ -64,7 +60,6 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
             public void onSuccess(JSONObject jsonObject) {
                 mDialog.dismiss();
                 mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
-
             }
 
             @Override
@@ -75,5 +70,4 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
             }
         });
     }
-
 }
