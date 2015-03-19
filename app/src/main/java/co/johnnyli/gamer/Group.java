@@ -16,12 +16,14 @@ import com.astuetz.PagerSlidingTabStrip;
 public class Group extends ActionBarActivity {
 
     public static String nameOfGroup;
+    public static String pkOfGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
         nameOfGroup = this.getIntent().getExtras().getString("name");
+        pkOfGroup = this.getIntent().getExtras().getString("pk");
         setTitle(nameOfGroup);
         String color = "#00006B";
         //ActionBar Color
@@ -32,6 +34,7 @@ public class Group extends ActionBarActivity {
         viewPager.setAdapter(new GroupFragmentPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setIndicatorColor(Color.parseColor(color));
+        tabsStrip.setShouldExpand(true);
         tabsStrip.setIndicatorHeight(15);
         tabsStrip.setViewPager(viewPager);
     }

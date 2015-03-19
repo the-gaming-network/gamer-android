@@ -21,21 +21,21 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class DiscussionFragment extends ListFragment implements AdapterView.OnItemClickListener,
         View.OnClickListener {
 
     private ListView listView;
     DiscussionJSONAdapter mJSONAdapter;
-    private static final String URL = "http://10.12.6.28:8000/Feed.json";
+    private static final String URL =
+            "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups/";
+    private static final String postURL =
+            "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts";
     private EditText newPost;
     private Button postButton;
     ProgressDialog mDialog;
+    private String pk;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         newPost = (EditText) view.findViewById(R.id.post);
         postButton = (Button) view.findViewById(R.id.post_button);
         postButton.setOnClickListener(this);
+        pk = getArguments().getString("pk");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mDialog = new ProgressDialog(DiscussionFragment.this.getActivity());
         mDialog.setMessage("Loading");
@@ -65,22 +66,26 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
         String owner_name = jsonObject.optString("owner_name");
         String text = jsonObject.optString("text");
-        String image_url = jsonObject.optString("image_url");
+        String image_url = jsonObject.optString("owner_profile_image");
+        String pk = jsonObject.optString("pk");
         Intent detailIntent = new Intent(DiscussionFragment.this.getActivity(), DetailView.class);
         detailIntent.putExtra("owner_name", owner_name);
         detailIntent.putExtra("text", text);
         detailIntent.putExtra("image_url", image_url);
+        detailIntent.putExtra("label", Group.nameOfGroup);
+        detailIntent.putExtra("pk", pk);
         startActivity(detailIntent);
     }
 
     private void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
+        Log.d("this is the url", URL);
         mDialog.show();
-        client.get(URL, new JsonHttpResponseHandler() {
+        client.get(URL + pk, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(JSONArray jsonArray) {
+            public void onSuccess(JSONObject jsonObject) {
                 mDialog.dismiss();
-                mJSONAdapter.updateData(jsonArray);
+                mJSONAdapter.updateData(jsonObject.optJSONArray("posts"));
             }
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
@@ -96,20 +101,26 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(newPost.getWindowToken(), 0);
         RequestParams params = new RequestParams();
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = sdf.format(cal.getTime());
         params.put("text", newPost.getText().toString());
-        params.put("timestamp", strDate);
-        params.put("owner_name", ProfileFragment.userFacebookName);
-        Log.d("this is a test", params.toString());
+        params.put("group", pk);
+        params.put("owner", "4");
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(URL, params, new JsonHttpResponseHandler() {
+        client.addHeader("X-CSRFToken", Info.csrftoken);
+        client.addHeader("Authorization", Info.auth);
+        client.post(postURL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 Log.d("testing", "it worked!!!");
+                getFeed();
+            }
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                Toast.makeText(DiscussionFragment.this.getActivity(), "Error: " + statusCode + " " +
+                        throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("Error", error.toString());
             }
         });
+//
         newPost.setText("");
     }
 }

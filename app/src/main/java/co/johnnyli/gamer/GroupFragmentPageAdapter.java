@@ -22,7 +22,11 @@ public class GroupFragmentPageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new DiscussionFragment();
+                Bundle disBundle = new Bundle();
+                disBundle.putString("pk", Group.pkOfGroup);
+                DiscussionFragment discuss = new DiscussionFragment();
+                discuss.setArguments(disBundle);
+                return discuss;
             case 1:
                 return new EventFragment();
             case 2:

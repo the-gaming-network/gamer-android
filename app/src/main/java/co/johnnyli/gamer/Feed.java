@@ -31,6 +31,7 @@ public class Feed extends ActionBarActivity {
         viewPager.setAdapter(new FeedFragmentPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setIndicatorColor(Color.parseColor(color));
+        tabsStrip.setShouldExpand(true);
         tabsStrip.setIndicatorHeight(15);
         tabsStrip.setViewPager(viewPager);
     }

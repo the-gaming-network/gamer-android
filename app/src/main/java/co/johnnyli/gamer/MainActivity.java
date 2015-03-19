@@ -9,11 +9,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -25,10 +31,10 @@ public class MainActivity extends ActionBarActivity {
     private static final int FRAGMENT_COUNT = SETTINGS +1;
 
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
-
+    public static String token;
     private boolean isResumed = false;
     private UiLifecycleHelper uiHelper;
-
+    private String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/login/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,24 @@ public class MainActivity extends ActionBarActivity {
                 manager.popBackStack();
             }
             if (state.isOpened()) {
+//                token = session.getAccessToken();
+                RequestParams params = new RequestParams();
+                params.put("username", "johnnyli91");
+                params.put("password", "7u2GQFDFJNhVsFPFMoRn");
+//                params.put("access_token", token);
+                AsyncHttpClient client = new AsyncHttpClient();
+                client.post(URL, params, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+                        try {
+                            token = jsonObject.getString("key");
+                        } catch (Exception e) {
+                            Log.d("ERRORRRRR!!!!!!!!", e.toString());
+                        }
+                        Log.d("testing", "it worked!!! =" + jsonObject);
+                    }
+                });
+
                 startActivity(new Intent(MainActivity.this, Feed.class));
                 showFragment(SETTINGS,false);
             } else if (state.isClosed()) {

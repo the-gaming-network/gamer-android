@@ -55,18 +55,22 @@ public class FeedJSONAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
-        Picasso.with(mContext).load(jsonObject.optString("image_url")).into(holder.avatarView);
+        if (jsonObject.has("owner_profile_image")) {
+            Picasso.with(mContext).load(jsonObject.optString("owner_profile_image")).into(holder.avatarView);
+        } else {
+            holder.avatarView.setVisibility(View.GONE);
+        }
         String groupName;
-        if (jsonObject.has("group")) {
+        if (jsonObject.has("group_name")) {
             groupName = jsonObject.optString("owner_name") + " in " +
-                    jsonObject.optString("group");
+                    jsonObject.optString("group_name");
         } else {
             groupName= jsonObject.optString("owner_name");
         }
         String postContent = jsonObject.optString("text");
-        if (jsonObject.has("likes")) {
-            String commentLike = "Comments: " + jsonObject.optString("comments")
-                    + "            Likes: " + jsonObject.optString("likes");
+        if (jsonObject.has("like_count")) {
+            String commentLike = "Comments: " + jsonObject.optString("comment_count")
+                    + "            Likes: " + jsonObject.optString("like_count");
             holder.commentTextView.setText(commentLike);
 
         } else {

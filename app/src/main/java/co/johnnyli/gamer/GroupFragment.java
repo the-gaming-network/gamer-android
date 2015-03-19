@@ -14,13 +14,14 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class GroupFragment extends ListFragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
     GroupListJSONAdapter mJSONAdapter;
-    private static final String URL = "http://10.12.6.28:8000/user_group.json";
+    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups";
     ProgressDialog mDialog;
 
     @Override
@@ -46,20 +47,22 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
         String name = jsonObject.optString("name");
+        String pk = jsonObject.optString("pk");
         Intent groupIntent = new Intent(GroupFragment.this.getActivity(), Group.class);
         groupIntent.putExtra("name", name);
+        groupIntent.putExtra("pk", pk);
         startActivity(groupIntent);
     }
 
     private void getGroup() {
         AsyncHttpClient client = new AsyncHttpClient();
-        mDialog.show();
+//        mDialog.show();
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(JSONObject jsonObject) {
+            public void onSuccess(JSONArray jsonArray) {
                 mDialog.dismiss();
-                mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
+                mJSONAdapter.updateData(jsonArray);
             }
 
             @Override

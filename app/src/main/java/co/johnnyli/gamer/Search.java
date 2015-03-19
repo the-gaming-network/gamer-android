@@ -3,10 +3,16 @@ package co.johnnyli.gamer;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,6 +23,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -28,7 +35,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
     EditText searchField;
     Button searchButton;
     ListView searchListView;
-    private static final String QUERY_URL = "http://10.12.6.28:8000/user_group.json";
+    private static final String QUERY_URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups?search=";
     GroupListJSONAdapter mJSONAdapter;
     ProgressDialog mDialog;
 
@@ -36,6 +43,10 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+        //ActionBar Color
+        String color = "#00006B";
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         searchField = (EditText) findViewById(R.id.search_field);
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
@@ -46,6 +57,26 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         mDialog = new ProgressDialog(this);
         mDialog.setMessage("Searching");
         mDialog.setCancelable(true);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_group:
+                Intent search = new Intent(this, AddGroup.class);
+                startActivity(search);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -66,13 +97,13 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         }
         AsyncHttpClient client = new AsyncHttpClient();
         mDialog.show();
-        client.get(QUERY_URL /*+ urlString*/,
+        client.get(QUERY_URL + urlString,
                 new JsonHttpResponseHandler() {
 
                     @Override
-                    public void onSuccess(JSONObject jsonObject) {
+                    public void onSuccess(JSONArray jsonArray) {
                         mDialog.dismiss();
-                        mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
+                        mJSONAdapter.updateData(jsonArray);
                     }
 
                     @Override
@@ -80,7 +111,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
                         mDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Error: " + statusCode + " " +
                                 throwable.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e("omg android", statusCode + " " + throwable.getMessage());
+                        Log.e("Gamer", statusCode + " " + throwable.getMessage());
                     }
                 });
     }
@@ -89,8 +120,10 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
         String name = jsonObject.optString("name");
+        String pk = jsonObject.optString("pk");
         Intent groupIntent = new Intent(this, Group.class);
         groupIntent.putExtra("name", name);
+        groupIntent.putExtra("pk", pk);
         startActivity(groupIntent);
     }
 }

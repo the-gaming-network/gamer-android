@@ -27,14 +27,15 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 public class DetailView extends ActionBarActivity implements View.OnClickListener{
 
     Context mContext;
-    private static final String URL = "http://10.12.6.28:8000/post.json";
+    private static final String base_URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts/";
+    private static final String postURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/comments";
     private ListView listView;
     FeedJSONAdapter mJSONAdapter;
     TextView parent_user;
@@ -53,6 +54,8 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         String color = "#00006B";
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+        String label = this.getIntent().getExtras().getString("label");
+        setTitle(label);
         pk = this.getIntent().getExtras().getString("pk");
         String owner_name;
         if (this.getIntent().getExtras().getString("group") != null) {
@@ -99,15 +102,15 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
     }
 
     private void getComment(String pk) {
-//        String urlString = "";
-//        try {
-//            urlString = URLEncoder.encode(pk, "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//        }
+        String urlString = "";
+        try {
+            urlString = URLEncoder.encode(pk, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(URL /*+ urlString*/, new JsonHttpResponseHandler(){
+        client.get(base_URL + urlString, new JsonHttpResponseHandler(){
 
             @Override
             public void onSuccess(JSONObject jsonObject) {
@@ -127,21 +130,21 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(add_comment.getWindowToken(), 0);
         RequestParams params = new RequestParams();
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = sdf.format(cal.getTime());
         params.put("text", add_comment.getText().toString());
-        params.put("timestamp", strDate);
-        params.put("owner_name", ProfileFragment.userFacebookName);
         params.put("post", pk);
-        Log.d("this is a test", params.toString());
-        Log.d("testing", "value =" +  ProfileFragment.userFacebookEmail);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(URL, params, new JsonHttpResponseHandler() {
-           @Override
-           public void onSuccess(JSONObject jsonObject) {
-               Log.d("testing", ProfileFragment.userFacebookEmail);
-           }
+        client.addHeader("X-CSRFToken", Info.csrftoken);
+        client.addHeader("Authorization", Info.auth);
+        client.post(postURL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                Log.d("testing", "it worked!!!");
+                getComment(pk);
+            }
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                Log.d("Error", error.toString());
+            }
         });
         add_comment.setText("");
     }

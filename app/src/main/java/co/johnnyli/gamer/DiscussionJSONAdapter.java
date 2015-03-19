@@ -55,12 +55,12 @@ public class DiscussionJSONAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
-        Picasso.with(mContext).load(jsonObject.optString("image_url")).into(holder.avatarView);
+        Picasso.with(mContext).load(jsonObject.optString("owner_profile_image")).into(holder.avatarView);
         String groupName = jsonObject.optString("owner_name");
         String postContent = jsonObject.optString("text");
-        if (jsonObject.has("likes")) {
-            String commentLike = "Comments: " + jsonObject.optString("comments") + "            Likes: "
-                    + jsonObject.optString("likes");
+        if (jsonObject.has("like_count")) {
+            String commentLike = "Comments: " + jsonObject.optString("comment_count") + "            Likes: "
+                    + jsonObject.optString("like_count");
             holder.commentTextView.setText(commentLike);
 
         } else {

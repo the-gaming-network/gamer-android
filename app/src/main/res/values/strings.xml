@@ -16,4 +16,8 @@
     <string name="post">Post</string>
     <string name="logout">Log out</string>
     <string name="post_hint">New Post</string>
+    <string name="action_add_group">Add Group</string>
+    <string name="new_group_name">Group Name</string>
+    <string name="new_group_description">Description</string>
+    <string name="add_group_button">Create Group</string>
 </resources>

@@ -21,7 +21,7 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
 
     private ListView listView;
     FeedJSONAdapter mJSONAdapter;
-    private static final String URL = "http://10.12.6.28:8000/Feed.json";
+    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts";
     ProgressDialog mDialog;
 
 
@@ -50,22 +50,23 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
         String pk = jsonObject.optString("pk");
-        String group = jsonObject.optString("group");
+        String group = jsonObject.optString("group_name");
         String owner_name = jsonObject.optString("owner_name");
         String text = jsonObject.optString("text");
-        String image_url = jsonObject.optString("image_url");
+        String image_url = jsonObject.optString("owner_profile_image");
         Intent detailIntent = new Intent(FeedFragment.this.getActivity(), DetailView.class);
         detailIntent.putExtra("pk", pk);
         detailIntent.putExtra("group", group);
         detailIntent.putExtra("owner_name", owner_name);
         detailIntent.putExtra("text", text);
         detailIntent.putExtra("image_url", image_url);
+        detailIntent.putExtra("label", group);
         startActivity(detailIntent);
     }
 
     private void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
-        mDialog.show();
+//        mDialog.show();
         client.get(URL, new JsonHttpResponseHandler() {
 
 

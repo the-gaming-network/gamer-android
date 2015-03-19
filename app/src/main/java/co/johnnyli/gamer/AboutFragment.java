@@ -26,7 +26,7 @@ public class AboutFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         name.setText(groupName);
-        description.setText("This is the description for the Avalon group. blah blah blah blah" +
+        description.setText("This is the description for the blah blah. blah blah blah blah" +
                 "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah");
 
     }
