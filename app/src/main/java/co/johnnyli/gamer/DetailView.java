@@ -36,7 +36,6 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
     Context mContext;
     private static final String base_URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts/";
     private static final String postURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/comments";
-    private ListView listView;
     FeedJSONAdapter mJSONAdapter;
     TextView parent_user;
     TextView parent_post;
@@ -51,7 +50,7 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_view);
         //ActionBar color
-        String color = "#00006B";
+        String color = MainActivity.color;
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         String label = this.getIntent().getExtras().getString("label");
@@ -70,6 +69,7 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         parent_post = (TextView) findViewById(R.id.post_content);
         parent_user.setText(owner_name);
         parent_post.setText(text);
+        ListView listView;
         listView = (ListView) findViewById(R.id.comment);
         avatarView = (ImageView) findViewById(R.id.user_img);
         Picasso.with(mContext).load(image_url).into(avatarView);
@@ -134,7 +134,8 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         params.put("post", pk);
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("X-CSRFToken", Info.csrftoken);
-        client.addHeader("Authorization", Info.auth);
+        client.addHeader("Authorization", MainActivity.auth);
+//        client.addHeader(MainActivity.facebookToken, MainActivity.facebookKey);
         client.post(postURL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {

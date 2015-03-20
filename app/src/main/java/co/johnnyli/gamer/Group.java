@@ -25,7 +25,7 @@ public class Group extends ActionBarActivity {
         nameOfGroup = this.getIntent().getExtras().getString("name");
         pkOfGroup = this.getIntent().getExtras().getString("pk");
         setTitle(nameOfGroup);
-        String color = "#00006B";
+        String color = MainActivity.color;
         //ActionBar Color
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
@@ -53,6 +53,9 @@ public class Group extends ActionBarActivity {
                 Intent search = new Intent(this, Search.class);
                 startActivity(search);
                 return true;
+            case R.id.action_refresh:
+                finish();
+                startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);

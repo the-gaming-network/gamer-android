@@ -149,7 +149,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
 
     private void getGroup() {
         AsyncHttpClient client = new AsyncHttpClient();
-//        mDialog.show();
+        client.addHeader("Authorization", MainActivity.auth);
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override

@@ -44,7 +44,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
         //ActionBar Color
-        String color = "#00006B";
+        String color = MainActivity.color;
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         searchField = (EditText) findViewById(R.id.search_field);

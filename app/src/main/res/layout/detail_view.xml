@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:text="@string/post"/>
+                android:text="@string/add_post"/>
         </LinearLayout>
         <ListView
             android:id="@+id/comment"

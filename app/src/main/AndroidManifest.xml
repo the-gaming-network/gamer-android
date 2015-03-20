@@ -46,6 +46,10 @@
             android:name=".AddGroup"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".AddPost"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

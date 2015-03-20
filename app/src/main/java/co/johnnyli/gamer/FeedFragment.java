@@ -66,7 +66,7 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
 
     private void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
-//        mDialog.show();
+        client.addHeader("Authorization", MainActivity.auth);
         client.get(URL, new JsonHttpResponseHandler() {
 
 
