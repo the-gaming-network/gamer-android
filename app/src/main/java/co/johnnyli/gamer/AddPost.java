@@ -76,6 +76,9 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
             startActivity(group);
         }
         post_text.setText("");
+    }
 
+    @Override
+    public void onBackPressed() {
     }
 }
