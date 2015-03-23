@@ -48,7 +48,7 @@ public class AddGroup extends ActionBarActivity implements View.OnClickListener{
         group.putExtra("name", groupName.getText().toString());
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("X-CSRFToken", Info.csrftoken);
-        client.addHeader("Authorization", MainActivity.auth);
+        client.addHeader("Authorization", Login.auth);
 
         client.post(createURL, params, new JsonHttpResponseHandler() {
             @Override
@@ -58,7 +58,7 @@ public class AddGroup extends ActionBarActivity implements View.OnClickListener{
                 RequestParams joinParams = new RequestParams();
                 joinParams.put("group", newGroupKey);
                 joinParams.put("owner", "2");
-                joinClient.addHeader("Authorization", MainActivity.auth);
+                joinClient.addHeader("Authorization", Login.auth);
                 joinClient.post(createURL + "join", joinParams, new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode1, Throwable throwable1, JSONObject error1) {

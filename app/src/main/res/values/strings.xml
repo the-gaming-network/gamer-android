@@ -27,4 +27,8 @@
     <string name="cancel_button">Cancel</string>
     <string name="join_group">Join Group</string>
     <string name="members">Members</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

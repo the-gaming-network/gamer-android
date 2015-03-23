@@ -74,7 +74,7 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
 
     public void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", MainActivity.auth);
+        client.addHeader("Authorization", Login.auth);
         client.get(URL + pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {

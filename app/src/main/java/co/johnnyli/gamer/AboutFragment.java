@@ -58,7 +58,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
     public void getAbout() {
         link = groupURL + pk;
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", MainActivity.auth);
+        client.addHeader("Authorization", Login.auth);
         client.get(link, new JsonHttpResponseHandler() {
 
             @Override
@@ -83,7 +83,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
         RequestParams params = new RequestParams();
         params.put("group", pk);
         params.put("owner", "2");
-        client.addHeader("Authorization", MainActivity.auth);
+        client.addHeader("Authorization", Login.auth);
         client.post(groupURL+"join" ,params, new JsonHttpResponseHandler() {
 
             @Override
@@ -104,6 +104,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
         JSONObject jsonObject = (JSONObject) mJSONAdapter.getItem(position);
         JSONObject profile = jsonObject.optJSONObject("profile");
         String username = jsonObject.optString("username");
+        String pk = jsonObject.optString("pk");
         String bio = profile.optString("bio");
         String picture = profile.optString("picture");
         String gender = profile.optString("gender");
@@ -111,6 +112,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
         String location = profile.optString("location");
         Intent memberProfile = new Intent(this.getActivity(), Profile.class);
         memberProfile.putExtra("username", username);
+        memberProfile.putExtra("pk", pk);
         memberProfile.putExtra("bio", bio);
         memberProfile.putExtra("picture", picture);
         memberProfile.putExtra("gender", gender);

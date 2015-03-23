@@ -55,7 +55,7 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
 
     private void getGroup() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", MainActivity.auth);
+        client.addHeader("Authorization", Login.auth);
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override

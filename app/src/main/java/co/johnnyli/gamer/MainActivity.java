@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
+//OLD LOGIN SCREEN FOR FACEBOOK INTEGRATION
 public class MainActivity extends ActionBarActivity {
 
     private static final int SPLASH = 0;

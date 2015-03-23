@@ -141,7 +141,7 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
             params.put("post", pk);
             AsyncHttpClient client = new AsyncHttpClient();
             client.addHeader("X-CSRFToken", Info.csrftoken);
-            client.addHeader("Authorization", MainActivity.auth);
+            client.addHeader("Authorization", Login.auth);
             client.post(postURL, params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(JSONObject jsonObject) {
@@ -160,7 +160,7 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
             params.put("post", pk);
             AsyncHttpClient client = new AsyncHttpClient();
             client.addHeader("X-CSRFToken", Info.csrftoken);
-            client.addHeader("Authorization", MainActivity.auth);
+            client.addHeader("Authorization", Login.auth);
             client.post("http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/like",
                     params, new JsonHttpResponseHandler() {
                         @Override

@@ -67,7 +67,7 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
             params.put("owner", "2");
             AsyncHttpClient client = new AsyncHttpClient();
             client.addHeader("X-CSRFToken", Info.csrftoken);
-            client.addHeader("Authorization", MainActivity.auth);
+            client.addHeader("Authorization", Login.auth);
 
             client.post(postURL, params, new JsonHttpResponseHandler() {
                 @Override
