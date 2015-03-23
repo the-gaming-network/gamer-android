@@ -72,6 +72,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         switch (item.getItemId()) {
             case R.id.action_add_group:
                 Intent search = new Intent(this, AddGroup.class);
+                finish();
                 startActivity(search);
                 return true;
         }

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -19,10 +18,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment implements AdapterView.OnItemClickListener{
@@ -62,7 +58,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         mDialog = new ProgressDialog(ProfileFragment.this.getActivity());
         mDialog.setMessage("Loading");
         mDialog.setCancelable(true);
-        getGroup();
+//        getGroup();
         return view;
     }
 
@@ -147,25 +143,25 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         uiHelper.onDestroy();
     }
 
-    private void getGroup() {
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Authorization", MainActivity.auth);
-        client.get(URL, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(JSONArray jsonArray) {
-                mDialog.dismiss();
-                mJSONAdapter.updateData(jsonArray);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                mDialog.dismiss();
-                Toast.makeText(ProfileFragment.this.getActivity(), "Error: " + statusCode + " " +
-                        throwable.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    private void getGroup() {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.addHeader("Authorization", MainActivity.auth);
+//        client.get(URL, new JsonHttpResponseHandler() {
+//
+//            @Override
+//            public void onSuccess(JSONArray jsonArray) {
+//                mDialog.dismiss();
+//                mJSONAdapter.updateData(jsonArray);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+//                mDialog.dismiss();
+//                Toast.makeText(ProfileFragment.this.getActivity(), "Error: " + statusCode + " " +
+//                        throwable.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

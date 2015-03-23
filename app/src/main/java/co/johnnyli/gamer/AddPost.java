@@ -52,9 +52,19 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
 
         if(v.getId() == R.id.post_button) {
             RequestParams params = new RequestParams();
+            //adds image file
+//            AssetManager am = getAssets();
+//            try {
+////                FileInputStream file = (FileInputStream) am.open("profile.jpg");
+//                InputStream inputStream = am.open("profile.jpg");
+//                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//            } catch (IOException e) {
+//                Log.d("ERROR", e.toString());
+//            }
+
             params.put("text", post_text.getText().toString());
             params.put("group", pk);
-            params.put("owner", "4");
+            params.put("owner", "2");
             AsyncHttpClient client = new AsyncHttpClient();
             client.addHeader("X-CSRFToken", Info.csrftoken);
             client.addHeader("Authorization", MainActivity.auth);

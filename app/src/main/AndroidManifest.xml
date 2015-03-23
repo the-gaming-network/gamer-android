@@ -50,6 +50,10 @@
             android:name=".AddPost"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".Profile"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

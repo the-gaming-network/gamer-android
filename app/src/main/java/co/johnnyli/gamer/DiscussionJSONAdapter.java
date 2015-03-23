@@ -55,7 +55,11 @@ public class DiscussionJSONAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
-        Picasso.with(mContext).load(jsonObject.optString("owner_profile_image")).into(holder.avatarView);
+        if (jsonObject.has("owner_profile_image")) {
+            Picasso.with(mContext).load(jsonObject.optString("owner_profile_image")).into(holder.avatarView);
+        } else {
+            holder.avatarView.setVisibility(View.GONE);
+        }
         String groupName = jsonObject.optString("owner_name");
         String postContent = jsonObject.optString("text");
         if (jsonObject.has("like_count")) {

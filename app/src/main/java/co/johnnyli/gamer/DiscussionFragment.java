@@ -3,7 +3,6 @@ package co.johnnyli.gamer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         postButton = (Button) view.findViewById(R.id.post_button);
         postButton.setOnClickListener(this);
         pk = getArguments().getString("pk");
-        Log.d("helloooooo", pk);
         addPost = new Intent(this.getActivity(), AddPost.class);
         addPost.putExtra("group", pk);
         addPost.putExtra("name", Group.nameOfGroup);
@@ -74,7 +72,7 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         startActivity(detailIntent);
     }
 
-    private void getFeed() {
+    public void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("Authorization", MainActivity.auth);
         client.get(URL + pk, new JsonHttpResponseHandler() {

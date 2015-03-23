@@ -20,8 +20,8 @@ import org.json.JSONObject;
 public class FeedFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     private ListView listView;
-    FeedJSONAdapter mJSONAdapter;
-    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts";
+    private FeedJSONAdapter mJSONAdapter;
+    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups/feed";
     ProgressDialog mDialog;
 
 
@@ -59,8 +59,8 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
         detailIntent.putExtra("group", group);
         detailIntent.putExtra("owner_name", owner_name);
         detailIntent.putExtra("text", text);
-        detailIntent.putExtra("image_url", image_url);
         detailIntent.putExtra("label", group);
+        detailIntent.putExtra("image_url", image_url);
         startActivity(detailIntent);
     }
 
@@ -74,7 +74,6 @@ public class FeedFragment extends ListFragment implements AdapterView.OnItemClic
             public void onSuccess(JSONArray jsonArray) {
                 mDialog.dismiss();
                 mJSONAdapter.updateData(jsonArray);
-
             }
 
             @Override

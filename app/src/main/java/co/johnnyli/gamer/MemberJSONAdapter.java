@@ -10,13 +10,16 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GroupListJSONAdapter extends BaseAdapter {
+/**
+ * Created by johnnyli on 3/22/15.
+ */
+public class MemberJSONAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater mInflater;
     JSONArray mJSONArray;
 
-    public GroupListJSONAdapter(Context context, LayoutInflater inflater) {
+    public MemberJSONAdapter(Context context, LayoutInflater inflater) {
         mContext = context;
         mInflater = inflater;
         mJSONArray = new JSONArray();
@@ -41,32 +44,22 @@ public class GroupListJSONAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.group_list_item, null);
+            convertView = mInflater.inflate(R.layout.member_list_item, null);
             holder = new ViewHolder();
-            holder.groupListItem = (TextView) convertView.findViewById(R.id.group_list_item);
-            holder.member = (TextView) convertView.findViewById(R.id.member);
-            holder.groupDescription = (TextView) convertView.findViewById(R.id.group_description);
+            holder.memberListItem = (TextView) convertView.findViewById(R.id.member_list_item);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
-        String groupName = jsonObject.optString("name");
-        String members = jsonObject.optString("member_count");
-        String description = jsonObject.optString("description");
-        holder.groupListItem.setText(groupName);
-        holder.member.setText("Members: " + members);
-        holder.groupDescription.setText(description);
-
+        String member = jsonObject.optString("username");
+        holder.memberListItem.setText(member);
         return convertView;
 
     }
 
     private static class ViewHolder {
-        public TextView groupListItem;
-        public TextView member;
-        public TextView groupDescription;
-
+        public TextView memberListItem;
     }
 
     public void updateData(JSONArray jsonArray) {

@@ -25,4 +25,6 @@
     <string name="add_post">Post</string>
     <string name="new_post_description">New Post</string>
     <string name="cancel_button">Cancel</string>
+    <string name="join_group">Join Group</string>
+    <string name="members">Members</string>
 </resources>
