@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,14 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class GroupFragment extends ListFragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
     GroupJSONAdapter mJSONAdapter;
-    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/users/2";
+    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/myinfo";
     ProgressDialog mDialog;
 
     @Override
@@ -59,9 +61,13 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-                mDialog.dismiss();
-                mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
+            public void onSuccess(JSONArray jsonArray) {
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
+                } catch (Exception e) {
+                    Log.d("ERROR!", e.toString());
+                }
             }
 
             @Override
