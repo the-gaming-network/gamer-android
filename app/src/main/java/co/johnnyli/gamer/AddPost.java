@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -42,6 +43,7 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
         post_button.setOnClickListener(this);
         Button cancel_button = (Button) findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -52,19 +54,9 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
 
         if(v.getId() == R.id.post_button) {
             RequestParams params = new RequestParams();
-            //adds image file
-//            AssetManager am = getAssets();
-//            try {
-////                FileInputStream file = (FileInputStream) am.open("profile.jpg");
-//                InputStream inputStream = am.open("profile.jpg");
-//                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//            } catch (IOException e) {
-//                Log.d("ERROR", e.toString());
-//            }
-
             params.put("text", post_text.getText().toString());
             params.put("group", pk);
-            params.put("owner", "2");
+            params.put("owner", FeedFragment.userpk);
             AsyncHttpClient client = new AsyncHttpClient();
             client.addHeader("X-CSRFToken", Info.csrftoken);
             client.addHeader("Authorization", Login.auth);
@@ -90,5 +82,18 @@ public class AddPost extends ActionBarActivity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                final Intent group = new Intent(this, Group.class);
+                group.putExtra("pk", pk);
+                group.putExtra("name", name);
+                finish();
+                startActivity(group);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

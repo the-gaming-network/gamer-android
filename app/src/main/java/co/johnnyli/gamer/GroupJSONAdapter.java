@@ -57,14 +57,12 @@ public class GroupJSONAdapter extends BaseAdapter {
         holder.groupDescription.setVisibility(View.GONE);
 
         return convertView;
-
     }
 
     private static class ViewHolder {
         public TextView groupListItem;
         public TextView member;
         public TextView groupDescription;
-
     }
 
     public void updateData(JSONArray jsonArray) {

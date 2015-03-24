@@ -15,15 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
-        <!--<EditText-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_marginLeft="50dp"-->
-            <!--android:inputType="textCapSentences"-->
-            <!--android:hint="@string/post_hint"-->
-            <!--android:id="@+id/post"-->
-            <!--android:layout_weight="0.75" />-->
     </LinearLayout>
     <ListView
         android:id="@+id/android:list"

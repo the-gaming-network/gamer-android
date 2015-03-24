@@ -1,7 +1,6 @@
 package co.johnnyli.gamer;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,6 @@ public class FeedJSONAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
-        Log.d("owner_profile_image", jsonObject.optString("owner_profile_image"));
         if (jsonObject.has("owner_profile_image")) {
             Picasso.with(mContext).load(jsonObject.optString("owner_profile_image")).into(holder.avatarView);
         } else {

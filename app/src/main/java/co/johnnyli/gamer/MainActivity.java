@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.Session;
@@ -39,8 +38,6 @@ public class MainActivity extends ActionBarActivity {
     private UiLifecycleHelper uiHelper;
     private String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/facebook/";
     public static String color = "#2f69ab";
-    public static String auth = "Basic " +
-            Base64.encodeToString((Info.username + ":" + Info.password).getBytes(), Base64.NO_WRAP);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

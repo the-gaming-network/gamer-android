@@ -37,8 +37,6 @@ public class Feed extends ActionBarActivity {
         tabsStrip.setViewPager(viewPager);
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_feed, menu);

@@ -65,7 +65,6 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         }
         String text = this.getIntent().getExtras().getString("text");
         String image_url = this.getIntent().getExtras().getString("image_url");
-        Log.d("this is image_url", " " + image_url);
         parent_user = (TextView) findViewById(R.id.author);
         parent_post = (TextView) findViewById(R.id.post_content);
         parent_post.setOnClickListener(this);
@@ -86,6 +85,7 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
         post_comment = (Button) findViewById(R.id.post_button);
         post_comment.setOnClickListener(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -102,6 +102,8 @@ public class DetailView extends ActionBarActivity implements View.OnClickListene
                 Intent search = new Intent(this, Search.class);
                 startActivity(search);
                 return true;
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);

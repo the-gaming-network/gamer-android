@@ -61,10 +61,11 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(JSONArray jsonArray) {
+            public void onSuccess(JSONObject jsonObject) {
                 try {
-                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-                    mJSONAdapter.updateData(jsonObject.optJSONArray("groups"));
+                    JSONArray jsonArray = jsonObject.optJSONArray("results");
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    mJSONAdapter.updateData(jsonData.optJSONArray("groups"));
                 } catch (Exception e) {
                     Log.d("ERROR!", e.toString());
                 }

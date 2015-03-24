@@ -57,16 +57,13 @@ public class GroupListJSONAdapter extends BaseAdapter {
         holder.groupListItem.setText(groupName);
         holder.member.setText("Members: " + members);
         holder.groupDescription.setText(description);
-
         return convertView;
-
     }
 
     private static class ViewHolder {
         public TextView groupListItem;
         public TextView member;
         public TextView groupDescription;
-
     }
 
     public void updateData(JSONArray jsonArray) {

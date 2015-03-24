@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +22,8 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
 
     private TextView name;
     private TextView description;
-//    private Button join;
     private String pk;
     private String groupURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups/";
-    private String link;
     private MemberJSONAdapter mJSONAdapter;
     private ListView memberList;
 
@@ -39,11 +36,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
         memberList = (ListView) view.findViewById(R.id.member_list);
         memberList.setOnItemClickListener(this);
         pk = getArguments().getString("pk");
-        ImageView banner = (ImageView) view.findViewById(R.id.img_group);
-        banner.setVisibility(View.GONE);
         getAbout();
-//        join = (Button) view.findViewById(R.id.join_group);
-//        join.setOnClickListener(this);
         return view;
     }
 
@@ -56,7 +49,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
     }
 
     public void getAbout() {
-        link = groupURL + pk;
+        String link = groupURL + pk;
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("Authorization", Login.auth);
         client.get(link, new JsonHttpResponseHandler() {
@@ -76,13 +69,12 @@ public class AboutFragment extends Fragment implements View.OnClickListener, Ada
         });
     }
 
-
     @Override
     public void onClick(View v) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("group", pk);
-        params.put("owner", "2");
+        params.put("owner", FeedFragment.userpk);
         client.addHeader("Authorization", Login.auth);
         client.post(groupURL+"join" ,params, new JsonHttpResponseHandler() {
 

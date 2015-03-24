@@ -58,7 +58,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         mDialog.setMessage("Searching");
         mDialog.setCancelable(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -75,6 +75,8 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
                 finish();
                 startActivity(search);
                 return true;
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -102,9 +104,14 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
                 new JsonHttpResponseHandler() {
 
                     @Override
-                    public void onSuccess(JSONArray jsonArray) {
+                    public void onSuccess(JSONObject jsonObject) {
                         mDialog.dismiss();
-                        mJSONAdapter.updateData(jsonArray);
+                        try {
+                            JSONArray jsonArray = jsonObject.optJSONArray("results");
+                            mJSONAdapter.updateData(jsonArray);
+                        } catch (Exception e) {
+                            Log.d("ERROR!", e.toString());
+                        }
                     }
 
                     @Override

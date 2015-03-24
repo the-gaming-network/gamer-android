@@ -39,6 +39,7 @@ public class Group extends ActionBarActivity {
         tabsStrip.setShouldExpand(true);
         tabsStrip.setIndicatorHeight(15);
         tabsStrip.setViewPager(viewPager);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -62,8 +63,8 @@ public class Group extends ActionBarActivity {
                 tabsStrip.setShouldExpand(true);
                 tabsStrip.setIndicatorHeight(15);
                 tabsStrip.setViewPager(viewPager);
-//                finish();
-//                startActivity(getIntent());
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);

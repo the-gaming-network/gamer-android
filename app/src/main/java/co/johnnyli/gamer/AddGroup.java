@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class AddGroup extends ActionBarActivity implements View.OnClickListener{
         description = (TextView) findViewById(R.id.group_description);
         Button postButton = (Button) findViewById(R.id.post_button);
         postButton.setOnClickListener(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class AddGroup extends ActionBarActivity implements View.OnClickListener{
                 AsyncHttpClient joinClient = new AsyncHttpClient();
                 RequestParams joinParams = new RequestParams();
                 joinParams.put("group", newGroupKey);
-                joinParams.put("owner", "2");
+                joinParams.put("owner", FeedFragment.userpk);
                 joinClient.addHeader("Authorization", Login.auth);
                 joinClient.post(createURL + "join", joinParams, new JsonHttpResponseHandler() {
                     @Override
@@ -82,5 +84,16 @@ public class AddGroup extends ActionBarActivity implements View.OnClickListener{
         Intent search = new Intent(this, Search.class);
         finish();
         startActivity(search);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent search = new Intent(this, Search.class);
+                finish();
+                startActivity(search);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

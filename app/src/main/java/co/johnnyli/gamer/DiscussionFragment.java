@@ -26,7 +26,6 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
             "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups/";
     private static final String postURL =
             "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts";
-//    private EditText newPost;
     private String pk;
     private Intent addPost;
 
@@ -34,7 +33,6 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discussion_fragment, container, false);
         listView = (ListView) view.findViewById(android.R.id.list);
-//        newPost = (EditText) view.findViewById(R.id.post);
         Button postButton;
         postButton = (Button) view.findViewById(R.id.post_button);
         postButton.setOnClickListener(this);
@@ -42,7 +40,6 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         addPost = new Intent(this.getActivity(), AddPost.class);
         addPost.putExtra("group", pk);
         addPost.putExtra("name", Group.nameOfGroup);
-
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getFeed();
         return view;
@@ -89,31 +86,8 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
     }
     @Override
     public void onClick(View v) {
-//        InputMethodManager imm = (InputMethodManager)getActivity()
-//                .getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(newPost.getWindowToken(), 0);
         this.getActivity().finish();
         startActivity(addPost);
-//        RequestParams params = new RequestParams();
-//        params.put("text", newPost.getText().toString());
-//        params.put("group", pk);
-//        params.put("owner", "4");
-//        AsyncHttpClient client = new AsyncHttpClient();
-//        client.addHeader("X-CSRFToken", Info.csrftoken);
-//        client.addHeader("Authorization", MainActivity.auth);
-//        client.post(postURL, params, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(JSONObject jsonObject) {
-//                getFeed();
-//            }
-//            @Override
-//            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-//                Toast.makeText(DiscussionFragment.this.getActivity(), "Error: " + statusCode + " " +
-//                        throwable.getMessage(), Toast.LENGTH_LONG).show();
-//                Log.d("Error", error.toString());
-//            }
-//        });
-//
-//        newPost.setText("");
+
     }
 }

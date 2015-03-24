@@ -21,8 +21,6 @@ import org.json.JSONObject;
 
 public class Login extends ActionBarActivity implements View.OnClickListener{
 
-    private String loginURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/login/";
-    private String registerURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/registration/";
     private static String username;
     private static String password;
     public static String auth;
@@ -47,6 +45,8 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         final Intent feed = new Intent(this, Feed.class);
+        String loginURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/login/";
+        String registerURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/rest-auth/registration/";
         if(v.getId() == R.id.login) {
             RequestParams params = new RequestParams();
             params.put("username", user.getText().toString());

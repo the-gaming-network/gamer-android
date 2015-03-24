@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -23,7 +24,6 @@ import org.json.JSONObject;
 public class Profile extends ActionBarActivity implements AdapterView.OnItemClickListener{
 
     private Context mContext;
-    private String baseURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/users/";
     private GroupJSONAdapter mJSONAdapter;
 
     @Override
@@ -58,9 +58,12 @@ public class Profile extends ActionBarActivity implements AdapterView.OnItemClic
         listView.setAdapter(mJSONAdapter);
         listView.setOnItemClickListener(this);
         getGroups();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     public void getGroups() {
+        String baseURL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/users/";
         String pk = this.getIntent().getExtras().getString("pk");
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("Authorization", Login.auth);
@@ -87,4 +90,13 @@ public class Profile extends ActionBarActivity implements AdapterView.OnItemClic
         groupIntent.putExtra("pk", pk);
         startActivity(groupIntent);
     }
-}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+ }

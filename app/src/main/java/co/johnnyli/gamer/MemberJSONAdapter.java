@@ -10,9 +10,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by johnnyli on 3/22/15.
- */
 public class MemberJSONAdapter extends BaseAdapter {
 
     Context mContext;
@@ -55,7 +52,6 @@ public class MemberJSONAdapter extends BaseAdapter {
         String member = jsonObject.optString("username");
         holder.memberListItem.setText(member);
         return convertView;
-
     }
 
     private static class ViewHolder {
