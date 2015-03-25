@@ -2,26 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/post_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/post"
+        android:layout_gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp"
-            android:inputType="textCapSentences"
-            android:hint="@string/post_hint"
-            android:id="@+id/post"
-            android:layout_weight="0.75" />
-        <Button
-            android:id="@+id/post_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:text="@string/post"/>
     </LinearLayout>
     <ListView
         android:id="@+id/android:list"

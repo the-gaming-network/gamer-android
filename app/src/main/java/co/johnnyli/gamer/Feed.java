@@ -16,18 +16,19 @@ import com.astuetz.PagerSlidingTabStrip;
 
 public class Feed extends ActionBarActivity {
     private static long back_pressed;
-
+    private ViewPager viewPager;
+    private String color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-        String color = "#00006B";
+        color = MainActivity.color;
         //Changes ActionBar color
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         //Code for Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new FeedFragmentPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setIndicatorColor(Color.parseColor(color));
@@ -35,8 +36,6 @@ public class Feed extends ActionBarActivity {
         tabsStrip.setIndicatorHeight(15);
         tabsStrip.setViewPager(viewPager);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +50,13 @@ public class Feed extends ActionBarActivity {
                 Intent search = new Intent(this, Search.class);
                 startActivity(search);
                 return true;
+            case R.id.action_refresh:
+                viewPager.setAdapter(new FeedFragmentPageAdapter(getSupportFragmentManager()));
+                PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                tabsStrip.setIndicatorColor(Color.parseColor(color));
+                tabsStrip.setShouldExpand(true);
+                tabsStrip.setIndicatorHeight(15);
+                tabsStrip.setViewPager(viewPager);
         }
 
         return super.onOptionsItemSelected(item);

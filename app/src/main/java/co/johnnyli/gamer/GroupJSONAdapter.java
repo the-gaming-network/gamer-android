@@ -10,13 +10,13 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GroupListJSONAdapter extends BaseAdapter {
+public class GroupJSONAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater mInflater;
     JSONArray mJSONArray;
 
-    public GroupListJSONAdapter(Context context, LayoutInflater inflater) {
+    public GroupJSONAdapter(Context context, LayoutInflater inflater) {
         mContext = context;
         mInflater = inflater;
         mJSONArray = new JSONArray();
@@ -52,11 +52,10 @@ public class GroupListJSONAdapter extends BaseAdapter {
         }
         JSONObject jsonObject = (JSONObject) getItem(position);
         String groupName = jsonObject.optString("name");
-        String members = jsonObject.optString("member_count");
-        String description = jsonObject.optString("description");
         holder.groupListItem.setText(groupName);
-        holder.member.setText("Members: " + members);
-        holder.groupDescription.setText(description);
+        holder.member.setVisibility(View.GONE);
+        holder.groupDescription.setVisibility(View.GONE);
+
         return convertView;
     }
 

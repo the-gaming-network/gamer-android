@@ -13,11 +13,22 @@
     <string name="button">Search</string>
     <string name="search">Search</string>
     <string name="comment">Post a comment</string>
-    <string name="post">Post</string>
+    <string name="post">Add a Post</string>
     <string name="logout">Log out</string>
     <string name="post_hint">New Post</string>
     <string name="action_add_group">Add Group</string>
     <string name="new_group_name">Group Name</string>
     <string name="new_group_description">Description</string>
     <string name="add_group_button">Create Group</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_add_post">Add Post</string>
+    <string name="add_post">Post</string>
+    <string name="new_post_description">New Post</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="join_group">Join Group</string>
+    <string name="members">Members</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

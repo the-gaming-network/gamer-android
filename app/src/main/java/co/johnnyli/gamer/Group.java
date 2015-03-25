@@ -17,6 +17,8 @@ public class Group extends ActionBarActivity {
 
     public static String nameOfGroup;
     public static String pkOfGroup;
+    private ViewPager viewPager;
+    private String color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +27,19 @@ public class Group extends ActionBarActivity {
         nameOfGroup = this.getIntent().getExtras().getString("name");
         pkOfGroup = this.getIntent().getExtras().getString("pk");
         setTitle(nameOfGroup);
-        String color = "#00006B";
+        color = MainActivity.color;
         //ActionBar Color
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         //Code for Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new GroupFragmentPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabsStrip.setIndicatorColor(Color.parseColor(color));
         tabsStrip.setShouldExpand(true);
         tabsStrip.setIndicatorHeight(15);
         tabsStrip.setViewPager(viewPager);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -53,6 +56,15 @@ public class Group extends ActionBarActivity {
                 Intent search = new Intent(this, Search.class);
                 startActivity(search);
                 return true;
+            case R.id.action_refresh:
+                viewPager.setAdapter(new GroupFragmentPageAdapter(getSupportFragmentManager()));
+                PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                tabsStrip.setIndicatorColor(Color.parseColor(color));
+                tabsStrip.setShouldExpand(true);
+                tabsStrip.setIndicatorHeight(15);
+                tabsStrip.setViewPager(viewPager);
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);

@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class GroupFragmentPageAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] {"Discussion", "Event", "About"};
+    final int PAGE_COUNT = 2;
+    private String tabTitles[] = new String[] {"Discussion", "About"};
 
     public GroupFragmentPageAdapter(FragmentManager fm) {
         super(fm);
@@ -27,11 +27,11 @@ public class GroupFragmentPageAdapter extends FragmentPagerAdapter {
                 DiscussionFragment discuss = new DiscussionFragment();
                 discuss.setArguments(disBundle);
                 return discuss;
+
             case 1:
-                return new EventFragment();
-            case 2:
                 Bundle bundle = new Bundle();
                 bundle.putString("name", Group.nameOfGroup);
+                bundle.putString("pk", Group.pkOfGroup);
                 AboutFragment about = new AboutFragment();
                 about.setArguments(bundle);
                 return about;

@@ -44,7 +44,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
         //ActionBar Color
-        String color = "#00006B";
+        String color = MainActivity.color;
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
         searchField = (EditText) findViewById(R.id.search_field);
@@ -58,7 +58,7 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         mDialog.setMessage("Searching");
         mDialog.setCancelable(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -72,8 +72,11 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
         switch (item.getItemId()) {
             case R.id.action_add_group:
                 Intent search = new Intent(this, AddGroup.class);
+                finish();
                 startActivity(search);
                 return true;
+            case android.R.id.home:
+                finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -101,9 +104,14 @@ public class Search extends ActionBarActivity implements View.OnClickListener,
                 new JsonHttpResponseHandler() {
 
                     @Override
-                    public void onSuccess(JSONArray jsonArray) {
+                    public void onSuccess(JSONObject jsonObject) {
                         mDialog.dismiss();
-                        mJSONAdapter.updateData(jsonArray);
+                        try {
+                            JSONArray jsonArray = jsonObject.optJSONArray("results");
+                            mJSONAdapter.updateData(jsonArray);
+                        } catch (Exception e) {
+                            Log.d("ERROR!", e.toString());
+                        }
                     }
 
                     @Override

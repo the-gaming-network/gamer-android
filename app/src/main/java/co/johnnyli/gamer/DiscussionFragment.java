@@ -1,25 +1,19 @@
 package co.johnnyli.gamer;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
@@ -32,23 +26,21 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
             "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups/";
     private static final String postURL =
             "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/posts";
-    private EditText newPost;
-    private Button postButton;
-    ProgressDialog mDialog;
     private String pk;
+    private Intent addPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discussion_fragment, container, false);
         listView = (ListView) view.findViewById(android.R.id.list);
-        newPost = (EditText) view.findViewById(R.id.post);
+        Button postButton;
         postButton = (Button) view.findViewById(R.id.post_button);
         postButton.setOnClickListener(this);
         pk = getArguments().getString("pk");
+        addPost = new Intent(this.getActivity(), AddPost.class);
+        addPost.putExtra("group", pk);
+        addPost.putExtra("name", Group.nameOfGroup);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        mDialog = new ProgressDialog(DiscussionFragment.this.getActivity());
-        mDialog.setMessage("Loading");
-        mDialog.setCancelable(true);
         getFeed();
         return view;
     }
@@ -77,19 +69,16 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
         startActivity(detailIntent);
     }
 
-    private void getFeed() {
+    public void getFeed() {
         AsyncHttpClient client = new AsyncHttpClient();
-        Log.d("this is the url", URL);
-        mDialog.show();
+        client.addHeader("Authorization", Login.auth);
         client.get(URL + pk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                mDialog.dismiss();
                 mJSONAdapter.updateData(jsonObject.optJSONArray("posts"));
             }
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                mDialog.dismiss();
                 Toast.makeText(DiscussionFragment.this.getActivity(), "Error: " + statusCode + " " +
                         throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -97,30 +86,8 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
     }
     @Override
     public void onClick(View v) {
-        InputMethodManager imm = (InputMethodManager)getActivity()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(newPost.getWindowToken(), 0);
-        RequestParams params = new RequestParams();
-        params.put("text", newPost.getText().toString());
-        params.put("group", pk);
-        params.put("owner", "4");
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("X-CSRFToken", Info.csrftoken);
-        client.addHeader("Authorization", Info.auth);
-        client.post(postURL, params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject jsonObject) {
-                Log.d("testing", "it worked!!!");
-                getFeed();
-            }
-            @Override
-            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                Toast.makeText(DiscussionFragment.this.getActivity(), "Error: " + statusCode + " " +
-                        throwable.getMessage(), Toast.LENGTH_LONG).show();
-                Log.d("Error", error.toString());
-            }
-        });
-//
-        newPost.setText("");
+        this.getActivity().finish();
+        startActivity(addPost);
+
     }
 }

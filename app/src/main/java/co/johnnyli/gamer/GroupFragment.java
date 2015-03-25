@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import org.json.JSONObject;
 public class GroupFragment extends ListFragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
-    GroupListJSONAdapter mJSONAdapter;
-    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/groups";
+    GroupJSONAdapter mJSONAdapter;
+    private static final String URL = "http://ec2-52-11-124-82.us-west-2.compute.amazonaws.com/api/myinfo";
     ProgressDialog mDialog;
 
     @Override
@@ -38,7 +39,7 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mJSONAdapter = new GroupListJSONAdapter(getActivity(), getActivity().getLayoutInflater());
+        mJSONAdapter = new GroupJSONAdapter(getActivity(), getActivity().getLayoutInflater());
         listView.setAdapter(mJSONAdapter);
         listView.setOnItemClickListener(this);
     }
@@ -56,13 +57,18 @@ public class GroupFragment extends ListFragment implements AdapterView.OnItemCli
 
     private void getGroup() {
         AsyncHttpClient client = new AsyncHttpClient();
-//        mDialog.show();
+        client.addHeader("Authorization", Login.auth);
         client.get(URL, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(JSONArray jsonArray) {
-                mDialog.dismiss();
-                mJSONAdapter.updateData(jsonArray);
+            public void onSuccess(JSONObject jsonObject) {
+                try {
+                    JSONArray jsonArray = jsonObject.optJSONArray("results");
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    mJSONAdapter.updateData(jsonData.optJSONArray("groups"));
+                } catch (Exception e) {
+                    Log.d("ERROR!", e.toString());
+                }
             }
 
             @Override
